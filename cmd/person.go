@@ -29,7 +29,7 @@ var personCmd = &cobra.Command{
 		personValue := "0"
 		if L.IsValidUUID(args[0]){
 			personValue = args[0]
-			issueQueryString = "?PersonID="
+			personQueryString = "?PersonID="
 		}
 		if personValue == "0"{
 			fmt.Println("No valid person information provided")
