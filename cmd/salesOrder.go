@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strconv"
 
+	L "github.com/aderrick318/sc-cli/lib"
 	"github.com/spf13/cobra"
 )
 
@@ -25,13 +26,13 @@ var salesOrderCmd = &cobra.Command{
 			return
 		}
 
-		supportCenterRoot := GetSupportCenterRootPath(isIssueBeta)
+		supportCenterRoot := L.GetSupportCenterRootPath(isIssueBeta)
 		salesOrderValue := "0"
 		if _, err := strconv.Atoi(args[0]); err == nil {
 			salesOrderValue = args[0]
 			issueQueryString = "?SalesOrderID="
 		}
-		if IsValidUUID(args[0]){
+		if L.IsValidUUID(args[0]){
 			salesOrderValue = args[0]
 			issueQueryString = "?QBNumber="
 		}
@@ -42,7 +43,7 @@ var salesOrderCmd = &cobra.Command{
 
 		issueUrl := supportCenterRoot + salesOrderEditPath + salesOrderQueryString + salesOrderValue
 
-		Openbrowser(issueUrl)
+		L.Openbrowser(issueUrl)
 	},
 }
 

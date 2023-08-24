@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	L "github.com/aderrick318/sc-cli/lib"
 	"github.com/spf13/cobra"
 )
 
@@ -21,9 +22,9 @@ var locationCmd = &cobra.Command{
 			return
 		}
 
-		supportCenterRoot := GetSupportCenterRootPath(isLocationBeta)
+		supportCenterRoot := L.GetSupportCenterRootPath(isLocationBeta)
 		locationValue := "0"
-		if IsValidUUID(args[0]){
+		if L.IsValidUUID(args[0]){
 			locationValue = args[0]
 			issueQueryString = "?LocationID="
 		}
@@ -34,7 +35,7 @@ var locationCmd = &cobra.Command{
 
 		locationUrl := supportCenterRoot + locationEditPath + locationQueryString + locationValue
 
-		Openbrowser(locationUrl)
+		L.Openbrowser(locationUrl)
 	},
 }
 

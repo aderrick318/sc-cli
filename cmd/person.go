@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 
+	L "github.com/aderrick318/sc-cli/lib"
 	"github.com/spf13/cobra"
 )
 
@@ -24,9 +25,9 @@ var personCmd = &cobra.Command{
 			return
 		}
 
-		supportCenterRoot := GetSupportCenterRootPath(isPersonBeta)
+		supportCenterRoot := L.GetSupportCenterRootPath(isPersonBeta)
 		personValue := "0"
-		if IsValidUUID(args[0]){
+		if L.IsValidUUID(args[0]){
 			personValue = args[0]
 			issueQueryString = "?PersonID="
 		}
@@ -37,7 +38,7 @@ var personCmd = &cobra.Command{
 
 		personUrl := supportCenterRoot + personEditPath + personQueryString + personValue
 
-		Openbrowser(personUrl)
+		L.Openbrowser(personUrl)
 	},
 }
 

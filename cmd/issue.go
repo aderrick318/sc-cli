@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
+	L "github.com/aderrick318/sc-cli/lib"
 	"github.com/spf13/cobra"
 )
 
@@ -24,13 +25,13 @@ and usage of using your command. For example:
 			return
 		}
 
-		supportCenterRoot := GetSupportCenterRootPath(isIssueBeta)
+		supportCenterRoot := L.GetSupportCenterRootPath(isIssueBeta)
 		issueValue := "0"
 		if _, err := strconv.Atoi(args[0]); err == nil {
 			issueValue = args[0]
 			issueQueryString = "?IssueNumber="
 		}
-		if IsValidUUID(args[0]){
+		if L.IsValidUUID(args[0]){
 			issueValue = args[0]
 			issueQueryString = "?IssueID="
 		}
@@ -41,7 +42,7 @@ and usage of using your command. For example:
 
 		issueUrl := supportCenterRoot + issueEditPath + issueQueryString + issueValue
 
-		Openbrowser(issueUrl)
+		L.Openbrowser(issueUrl)
 	},
 }
 
