@@ -11,7 +11,7 @@ import (
 )
 
 var isPersonBeta bool
-const personEditPath string = "/SupportCenter/PersonEdit.aspx"
+const personEditPath string = "/PersonEdit.aspx"
 var personQueryString string = ""
 
 // personCmd represents the person command
