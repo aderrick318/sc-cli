@@ -9,23 +9,40 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var isPersonBeta bool
+const personEditPath string = "/SupportCenter/PersonEdit.aspx"
+var personQueryString string = ""
+
 // personCmd represents the person command
 var personCmd = &cobra.Command{
 	Use:   "person",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Opens person edit for provided personID",
+	Long: ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("person called")
+		if len(args) == 0{
+			fmt.Println("No person id provided")
+			return
+		}
+
+		supportCenterRoot := GetSupportCenterRootPath(isPersonBeta)
+		personValue := "0"
+		if IsValidUUID(args[0]){
+			personValue = args[0]
+			issueQueryString = "?PersonID="
+		}
+		if personValue == "0"{
+			fmt.Println("No valid person information provided")
+			return
+		}
+
+		personUrl := supportCenterRoot + personEditPath + personQueryString + personValue
+
+		Openbrowser(personUrl)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(personCmd)
 
-	personCmd.Flags().BoolP("beta", "b", false, "Launches Beta site for this command")
+	personCmd.Flags().BoolVarP(&isPersonBeta,"beta", "b", false, "Launches Beta site for this command")
 }

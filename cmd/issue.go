@@ -1,13 +1,15 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/spf13/cobra"
 )
+
+var isIssueBeta bool
+var issueEditPath string = "/SupportCenter/IssueEdit.aspx"
+var issueQueryString string = ""
 
 // issueCmd represents the issue command
 var issueCmd = &cobra.Command{
@@ -17,16 +19,34 @@ var issueCmd = &cobra.Command{
 and usage of using your command. For example:
 .`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("issue called")
+		if len(args) == 0{
+			fmt.Println("No issue id/number provided")
+			return
+		}
+
+		supportCenterRoot := GetSupportCenterRootPath(isIssueBeta)
+		issueValue := "0"
+		if _, err := strconv.Atoi(args[0]); err == nil {
+			issueValue = args[0]
+			issueQueryString = "?IssueNumber="
+		}
+		if IsValidUUID(args[0]){
+			issueValue = args[0]
+			issueQueryString = "?IssueID="
+		}
+		if issueValue == "0"{
+			fmt.Println("No valid issue information provided")
+			return
+		}
+
+		issueUrl := supportCenterRoot + issueEditPath + issueQueryString + issueValue
+
+		Openbrowser(issueUrl)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(issueCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	issueCmd.Flags().BoolP("beta", "b", false, "Launches Beta site for this command")
+	issueCmd.Flags().BoolVarP(&isIssueBeta,"beta", "b", false, "Launches Beta site for this command")
 }

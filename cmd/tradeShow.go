@@ -5,27 +5,46 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/spf13/cobra"
 )
 
+var isTradeShowBeta bool
+var tradeShowEditPath string = "/SupportCenter/TradeShowEdit.aspx"
+var tradeShowQueryString string = ""
+
 // tradeShowCmd represents the tradeShow command
 var tradeShowCmd = &cobra.Command{
 	Use:   "tradeShow",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Opens Trade Show edit for provided Trade ShowID (int)",
+	Long: ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("tradeShow called")
+		if len(args) == 0{
+			fmt.Println("No trade show id provided")
+			return
+		}
+
+		supportCenterRoot := GetSupportCenterRootPath(isIssueBeta)
+		tradeShowValue := "0"
+		if _, err := strconv.Atoi(args[0]); err == nil {
+			tradeShowValue = args[0]
+			issueQueryString = "?TradeShowID="
+		}
+		
+		if tradeShowValue == "0"{
+			fmt.Println("No valid Trade Show information provided")
+			return
+		}
+
+		issueUrl := supportCenterRoot + tradeShowEditPath + tradeShowQueryString + tradeShowValue
+
+		Openbrowser(issueUrl)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(tradeShowCmd)
 
-	tradeShowCmd.Flags().BoolP("beta", "b", false, "Launches Beta site for this command")
+	tradeShowCmd.Flags().BoolVarP(&isTradeShowBeta,"beta", "b", false, "Launches Beta site for this command")
 }
