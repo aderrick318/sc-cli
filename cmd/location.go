@@ -26,7 +26,7 @@ var locationCmd = &cobra.Command{
 		locationValue := "0"
 		if L.IsValidUUID(args[0]){
 			locationValue = args[0]
-			issueQueryString = "?LocationID="
+			locationQueryString = "?LocationID="
 		}
 		if locationValue == "0"{
 			fmt.Println("No valid location information provided")
